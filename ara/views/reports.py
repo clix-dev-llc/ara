@@ -78,8 +78,8 @@ def failed_report_list(page=1):
                      .order_by(models.Playbook.time_start.desc()))
     else:
         playbooks = (models.Playbook.query
-                     .join(Stats)
-                     .filter(Stats.failed > 0)
+                     .join(models.Stats)
+                     .filter(models.Stats.failed > 0)
                      .order_by(models.Playbook.time_start.desc()))
 
     if not utils.fast_count(playbooks):

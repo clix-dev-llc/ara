@@ -26,6 +26,8 @@
             <li>
             {% endif -%}
                 <a href="{{ url_for('reports.report_list') }}">All Playbook reports</a>
+            </li>
+            <li>
                 <a href="{{ url_for('reports.failed_report_list') }}">Failed Playbook reports</a>
             </li>
             {% endif -%}
