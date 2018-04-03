@@ -97,7 +97,7 @@ def failed_report_list(page=1):
     result_per_page = current_app.config['ARA_RESULT_PER_PAGE']
 
     return render_template('report_list.html',
-                           active='reports',
+                           active='failed_reports',
                            result_per_page=result_per_page,
                            playbooks=playbooks,
                            stats=stats)

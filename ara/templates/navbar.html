@@ -27,7 +27,7 @@
             {% endif -%}
                 <a href="{{ url_for('reports.report_list') }}">All Playbook reports</a>
             </li>
-            {% if active and active == 'reports' -%}
+            {% if active and active == 'failed_reports' -%}
             <li class="active">
             {% else -%}
             <li>
