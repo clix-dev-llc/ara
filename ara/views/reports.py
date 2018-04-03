@@ -68,6 +68,40 @@ def report_list(page=1):
                            playbooks=playbooks,
                            stats=stats)
 
+@reports.route('/failed_reports/')
+@reports.route('/failed_reports/list/<int:page>.html')
+def failed_report_list(page=1):
+    if current_app.config['ARA_PLAYBOOK_OVERRIDE'] is not None:
+        override = current_app.config['ARA_PLAYBOOK_OVERRIDE']
+        playbooks = (models.Playbook.query
+                     .filter(models.Playbook.id.in_(override))
+                     .order_by(models.Playbook.time_start.desc()))
+    else:
+        playbooks = (models.Playbook.query
+                     .join(Stats)
+                     .filter(Stats.failed > 0)
+                     .order_by(models.Playbook.time_start.desc()))
+
+    if not utils.fast_count(playbooks):
+        return redirect(url_for('about.main'))
+
+    playbook_per_page = current_app.config['ARA_PLAYBOOK_PER_PAGE']
+    # Paginate unless playbook_per_page is set to 0
+    if playbook_per_page >= 1:
+        playbooks = playbooks.paginate(page, playbook_per_page, False)
+    else:
+        playbooks = playbooks.paginate(page, None, False)
+
+    stats = utils.get_summary_stats(playbooks.items, 'playbook_id')
+
+    result_per_page = current_app.config['ARA_RESULT_PER_PAGE']
+
+    return render_template('report_list.html',
+                           active='reports',
+                           result_per_page=result_per_page,
+                           playbooks=playbooks,
+                           stats=stats)
+
 
 @reports.route('/reports/<playbook_id>.html')
 def report(playbook_id):

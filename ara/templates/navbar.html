@@ -25,7 +25,8 @@
             {% else -%}
             <li>
             {% endif -%}
-                <a href="{{ url_for('reports.report_list') }}">Playbook reports</a>
+                <a href="{{ url_for('reports.report_list') }}">All Playbook reports</a>
+                <a href="{{ url_for('reports.failed_report_list') }}">Failed Playbook reports</a>
             </li>
             {% endif -%}
             {% if active and active == 'about' -%}
@@ -33,7 +34,7 @@
             {% else -%}
             <li>
             {% endif -%}
-                <a href="{{ url_for('about.main') }}">About This Custom ara</a>
+                <a href="{{ url_for('about.main') }}">About</a>
             </li>
         </ul>
     </div>
